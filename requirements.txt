@@ -1,0 +1,3 @@
+aiohttp
+faust[fast,uvloop,setproctitle]==1.10.3
+confluent-kafka[avro]==1.3.0
