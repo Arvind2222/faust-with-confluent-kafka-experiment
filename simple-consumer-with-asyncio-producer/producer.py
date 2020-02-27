@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 import asyncio
+from abc import ABCMeta
+
 import aiohttp
 import faust
 
-
-class Record(faust.Record):
-    value: int
-
-
 app = faust.App('concurrency', broker='kafka://localhost:9092')
-topic = app.topic('concurrency', value_type=Record)
+topic = app.topic('concurrency')
 
 
 @app.agent(topic, concurrency=200)
@@ -21,7 +18,7 @@ async def mytask(records):
 
 async def producer():
     for i in range(10_000):
-        await topic.send(value=Record(value=i))
+        await topic.send(value=i)
 
 
 def main():
